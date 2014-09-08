@@ -16,7 +16,7 @@ namespace Castle_Windsor_prototype
             container.Install(FromAssembly.This());
             var obj =   container.Resolve<ISchool>();
             obj.ToString();
-            
+            container.Release(obj);
           
 
 
