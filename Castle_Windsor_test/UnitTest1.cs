@@ -18,23 +18,34 @@ namespace Castle_Windsor_test
             container = new WindsorContainer().Install(new Installers());
         }
         [TestMethod]
+        [TestCategory("DI")]
+        [Priority(1)]
         public void TestMethod1()
         {
             var allHandlers = GetAllHandlers(container);
             Assert.IsNotNull(allHandlers);
             Assert.AreEqual(6, allHandlers.Length);
 
-         var obj =  container.Resolve<ISchool>();
-         Assert.IsInstanceOfType(obj,typeof(School));
-           
-                 obj.ToString();
-              
-            //Assert.NotEmpty(allHandlers);
-          
-           // Assert.Equal(allHandlers, controllerHandlers);
+        
+                
+           }
+        [TestMethod]
+        [TestCategory("DI")]
+        [Priority(2)]
+        public void TestSchoolObject()
+        {
+            var obj = container.Resolve<ISchool>();
+            Assert.IsInstanceOfType(obj, typeof(School));
+            container.Release(obj);
+
         }
 
-
+        [TestCleanup]
+        public void Clearnup() 
+        {
+            container.Dispose();
+            
+        }
 
         // private methods
         private IHandler[] GetAllHandlers(IWindsorContainer container)
